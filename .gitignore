@@ -1,0 +1,13 @@
+Final_Report.pdf
+main.pdf
+finalreport.pdf
+*.aux
+*.blg
+*.bbl
+*.log
+*.out
+*.fdb_latexmk
+*.fls
+*.gz
+*(busy)
+.DS_Store
