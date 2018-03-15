@@ -74,6 +74,8 @@
 
 通过简笔画生成图像的技术有着广泛的应用前景。一个例子是在基于图片的商品搜索中，消费者们时常会有脑海中已经有了件商品的形象，而不知如何找到的困难，这时用户可以通过简笔画描述出想要的衣服，或者在已有的一件样品上进行更改。另一个例子是当下异常繁荣的网络小说市场。起点中文网上的作品已经有数百万之巨，其中绝大多数作品都是纯文本形式，绝大多数作家都想为自己的作品添加插图、为笔下的人物赋予视觉形象，但是由于插画的耗时与价格而只有极少数作品能有此殊荣。最后是广大的兴趣爱好者团体，他们想为喜爱的作品进行二次创作，有了很好的想法却由于不具有专业的美术技能而极大地增加了创作难度、限制了作品的想象力。
 
+% [TODO]: to be modified
+
 神经图像编辑的范围十分广阔，本项目研究动漫头像编辑这一子类上的应用。
 
 经过一个学期的时间，我们的项目取得了如下成果：
@@ -94,6 +96,8 @@
 
 
 \section{相关工作}
+
+% [TODO]: 更详细一点
 
 现有的研究中，与草图生成图像相关的研究可以分为两类，一类是使用语义图像作为输入的条件生成网络，一类是将编辑过程看作可优化的过程，调整生成器的输入的方法。前一类以pix2pix为代表~\cite{isola2016image}，输入一个精确的语义地图(semantic segmentation map)，每一个像素表明了所属的物体类别，通过一个变化后的AutoEncoder输出生成图像。后一类使用普通的生成网络，接受随机向量的输入，输出生成图像，通过设计一种改变输入随机向量的方法来使得网络生成靠近期望结果的输出。
 
@@ -228,39 +232,10 @@
   \label{fig:discriminator}
 \end{figure}
 
-我们在探究最佳训练的过程中还使用了Wassertein GAN~\cite{2017arXiv170107875A}，其目标和损失函数定义如下：
-%
-\begin{align}
-  \min_{\theta_G,\theta_f} \max_{\theta_D} \mathbb{E}_{(x, z, c) \sim (P_r, P_z, P_c)} \Big[ D(x) - D(G(z, c)) + \mathcal{L}_{gp} \Big] \\
-  \mathcal{L}_{gp} = \norm{\left(\frac{\partial D(\tilde x)}{\partial \tilde x}\right)^2 - 1 }_2
-\end{align}
-%
-其中$\tilde x$表示了生成图像和真实图像的线性插值，$\alpha \in (0, 1)$是随机的插值系数，即
-%
-\begin{align}
-  \tilde x = \alpha (x - G(z, c)) + G(z, c)
-\end{align}
-%
-为了扩展至第二阶段，我们加入了重建损失项。判别函数输入当前图像，除了输出一个真假判别项，还需要重建出 $z$ 和 $c$。生成器接受重建之后的$\hat z$和$\hat c$，生成重建图像$x_{rec}$，并加入关于重建图像的判别器损失和L1像素级别重建损失。同时为了增强判别器回归出$z$ 和 $c$的能力，还加入了判别器重建的损失，$z$由于是连续的，加入L1损失；$c$是离散的且含有类别信息，使用交叉熵作为损失。
-%
-\begin{align}
-\mathcal{L}_{IAN}(D) &= \mathcal{L}_{DRAGAN}(D) + \mathcal{L}_{reconstruct}(D) + \lambda_{adv} \mathcal{L}_{rec\_adv}(D)\\
-\mathcal{L}_{IAN}(G) &= \mathcal{L}_{DRAGAN}(G) + \mathcal{L}_{reconstruct}(G) + \lambda_{adv} \mathcal{L}_{rec\_adv}(G) \\
-\mathcal{L}_{reconstruct}(D) &= \mathbb{E}_{x \sim P_{data}} \big[ \norm{x_{rec} - x} \big] \notag \\
-& + \mathbb{E}_{z\sim P_{noise},c\sim P_{cond}} \big[\norm{D_z(G(z, c)) - z} + P_D[c|D_c(G(z, c))] \big] \\
-\mathcal{L}_{reconstruct}(G) &= \mathbb{E}_{x \sim P_{data}} \big[ \norm{x_{rec} - x} \big] \notag \\
-& + \mathbb{E}_{z\sim P_{noise},c\sim P_{cond}} \big[\norm{D_z(G(z, c)) - z} + P_D[c|D_c(G(z, c))] \big] \\
-\mathcal{L}_{rec\_adv}(D) &= \mathbb{E}_{} \big[ \log D(x_{rec}) \big] \\
-\mathcal{L}_{rec\_adv}(G) &= \mathbb{E}_{} \big[ \log (1 - D(x_{rec})) \big] \\
-x_{rec} &= G(D_z(x), D_c(x))
-\end{align}
-%
-扩展后的损失函数可用于第二阶段的工作，首先将真实图片经过判别器编码成 $z$ 和 $c$，然后使用生成器进行重建，就可以接入第一阶段的工作，完成重建。
-
 \subsection{数据集}
 我们使用的数据集取自 Getchu\footnote{\url{http://getchu.com}}网站，该网站汇聚了大量高质量动漫人物立绘，且图片中仅有单人，背景为白色，很适合作为我们的训练数据。
 
-我们使用爬虫工具从该网站上获得了 22~000 张图片，经过 OpenCV \footnote{\url{https://opencv.org}}识别人脸，然后裁剪、缩放到 $64\times64$大小。
+我们使用爬虫工具从该网站上获得了 22000 张图片，经过 OpenCV \footnote{\url{https://opencv.org}}识别人脸，然后裁剪、缩放到 $64\times64$大小。
 
 \begin{figure}[H]
   \centering
@@ -305,6 +280,8 @@ x_{rec} &= G(D_z(x), D_c(x))
 在我们完成项目的过程中，在MNIST数据集和自定义的Getchu数据集上都进行了多次实验，包括网络结构的选取、训练参数的设置，普通GAN训练、WGAN~\cite{2017arXiv170107875A}和DRAGAN等训练方法的选取。
 
 \subsubsection{演示模型的训练}
+
+% [TODO]: 可能更换模型
 
 最终我们确定的训练设置是：Adam~\cite{Kingma2014Adam}优化器以$2 \times 10^{-4}$的初始学习率进行$5 \times 10^{4}$的迭代，然后在接下来$5 \times 10^{4}$的迭代中线性降低学习率至$1 \times 10^{5}$。网络使用128维的随机向量$z$和34维的条件向量$c$，前者服从$\sigma=1, \mu=0$的正态分布，后者在保证类互斥条件下由均匀分布随机产生。各个loss的系数是$\lambda_{gp}=0.5$，$\lambda_{reg}=10^{-4}$，$\lambda_{adv}=1$。$\mathrm{batchsize}=64$。训练在Titan X GPU下需要花费大约20小时的时间。
 
