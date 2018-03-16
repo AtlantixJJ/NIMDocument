@@ -107,8 +107,6 @@
 
 我们的项目立足于业余用户的简笔画，努力做到面向业余用户的简单而有效的绘图。我们主要与第一类方法进行比较，使用iGAN~\cite{Zhu2016Generative}和NPE~\cite{Brock2016Neural}作为两个基线，其效果如~\ref{fig:baseline1}和~\ref{fig:baseline2}所示。这两种基线方法在各自原文的应用领域上都有着较为令人满意的结果，然而在动漫数据集Getchu上的表现都充分地体现出了其生成质量和编辑质量上的瓶颈。我们的项目针对这个瓶颈提出了有效的解决方法。
 
-% [TODO]: Add 
-
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\linewidth]{figs/baseline_shoe.PNG}
@@ -127,14 +125,7 @@
 
 \section{核心技术}
 
-完成神经图像编辑的核心技术分为两部分：网络的训练和图像编辑框架。在网络训练中，我们参考了~\cite{Jin2017Towards}的网络设计了自己的生成网络和判别网络。在图像编辑的框架中，我们参考了第一类神经图像编辑中优化输入的方法，对其进行了改进。最终结果如~\ref{fig:pic}所示，在生成质量、编辑质量上都取得了显著的提升。
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figs/pic.png}
-  \caption{\kai 编辑效果展示，共六组，每组三幅图。每组中，左中右分别为原图、简笔画图、结果图。第一行为成功更换发色的例子，第二行为成功更换瞳色的例子，第三行为成功更换发型的例子。与两种基线方法相比，在生成质量、编辑稳定性、编辑自由度上都有着显著的提升。}
-  \label{fig:pic}
-\end{figure}
+完成神经图像编辑的核心技术分为两部分：网络的训练和图像编辑框架。在网络训练中，我们参考了~\cite{Jin2017Towards}的网络设计了自己的生成网络和判别网络。在图像编辑的框架中，我们参考了第一类神经图像编辑中优化输入的方法，对其进行了改进。
 
 \subsection{图像编辑}
 
@@ -217,20 +208,8 @@
   \alpha & \sim U(0, 1)
 \end{align}
 
-我们使用的网络结构如图 \ref{fig:generator} 和图 \ref{fig:discriminator} 所示。
+% [TODO]: Network structure
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1\linewidth]{figs/g_net_moe.png}
-  \caption{\kai 生成网络。采用了16个Residual Block，降低了ReLU的出现频率，增加了横跨所有Residual Block的连接。图片来自于~\cite{Jin2017Towards}。}
-  \label{fig:generator}
-\end{figure}
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=1\linewidth]{figs/mod_disc.png}
-  \caption{\kai 判别网络。采用了10个Residual Block，不使用Batch Normalization~\cite{ioffe2015batch}。图片来自于~\cite{Jin2017Towards}。}
-  \label{fig:discriminator}
-\end{figure}
 
 \subsection{数据集}
 我们使用的数据集取自 Getchu\footnote{\url{http://getchu.com}}网站，该网站汇聚了大量高质量动漫人物立绘，且图片中仅有单人，背景为白色，很适合作为我们的训练数据。
@@ -275,6 +254,7 @@
 \end{table}
 
 \section{实验}
+
 \subsection{生成对抗训练}
 
 在我们完成项目的过程中，在MNIST数据集和自定义的Getchu数据集上都进行了多次实验，包括网络结构的选取、训练参数的设置，普通GAN训练、WGAN~\cite{2017arXiv170107875A}和DRAGAN等训练方法的选取。
@@ -304,6 +284,20 @@
 \end{figure}
 
 \subsubsection{效果展示}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{figs/pic.png}
+  \caption{\kai 动漫人脸编辑效果展示，共六组，每组三幅图。每组中，左中右分别为原图、简笔画图、结果图。第一行为成功更换发色的例子，第二行为成功更换瞳色的例子，第三行为成功更换发型的例子。与两种基线方法相比，在生成质量、编辑稳定性、编辑自由度上都有着显著的提升。}
+  \label{fig:pic}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{figs/shoes.png}
+  \caption{\kai 鞋子图片编辑效果展示，共六组。}
+  \label{fig:pic}
+\end{figure}
 
 将编辑操作应用于训练好的网络，我们得到了效果优秀的图像生成和编辑效果。如图~\ref{fig:pic}~所示，我们的模型能够生成高质量的图片，并对其进行稳定的编辑，在编辑过程中不容易丧失图片的真实性。同时编辑支持多种功能，眼睛、头发的颜色，发型等可以按照简笔画给定的方式变化。
 
