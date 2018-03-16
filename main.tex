@@ -112,16 +112,6 @@
   \item 开发了基于浏览器/服务器(B/S)架构的网页应用。
 \end{enumerate}
 
-<<<<<<< HEAD
-=======
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figs/frontend.png}
-  \caption{\kai 项目效果展示。用户通过网页前端绘制简笔画，提交到后台，经过神经网络的优化编辑以后，返回一个符合编辑预期的图像。}
-  \label{fig:frontend}
-\end{figure}
-
->>>>>>> 79f5623fd7822daf33d6201e29ae2a966dc29580
 \section{项目背景}
 
 基于神经网络的图像编辑最早来源于2016提出的交互式生成对抗网络(Interactive Generative Adversarial Network, iGAN)~\cite{Zhu2016Generative}。iGAN提出了基于优化输入的交互式编辑框架，并在户外风景、教堂、鞋子、手提包数据集上进行了实验。iGAN能够做到使得图片随着用户的编辑发生变化，但是它存在着根本的不足，一是生成的质量较低，生成的分辨率仅为 $64\times64$ 而且其内容的真假较易被人分辨；二是在编辑过程中图片的生成质量下滑严重。之后Neural Photo Editor~\cite{Brock2016Neural}的提出改进了生成网络、判别网络，使得在 $64\times64$ 分辨率下的生成质量得到了提升，在人脸编辑领域得到了令人满意的结果。生成质量与编辑质量一直是神经图像编辑的瓶颈，至今仍然处于待解决的状态。尤其是当问题变成了动漫相关的图像子类时，由于此领域内数据集质量的低下，这生成质量与编辑质量的问题变得尤为突出，成为本项目的难点之一。
