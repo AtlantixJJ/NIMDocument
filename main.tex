@@ -10,11 +10,10 @@
 %\usepackage{nips_2016}
 
 % to compile a camera-ready version, add the [final] option, e.g.:
-\usepackage[final]{finalreport}
+% \usepackage[final]{finalreport}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
-\usepackage{hyperref}       % hyperlinks
 \usepackage{url}            % simple URL typesetting
 \usepackage{booktabs}       % professional-quality tables
 \usepackage{amsfonts}       % blackboard math symbols
@@ -23,32 +22,45 @@
 \usepackage{CJKutf8}
 \usepackage{tabularx}
 \usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{geometry}
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{pdfpages}
 \usepackage{multirow}
 \usepackage{titlesec}
 \usepackage{indentfirst}
+\usepackage[colorlinks,citecolor=green,linkcolor=black,menucolor=red,
+			bookmarksnumbered=false,bookmarksopen=false,
+			%unicode,					%Linux
+			CJKbookmarks,				%windows
+      ]{hyperref}
 
 \setlength{\parindent}{2em}
 
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\geometry{left=2.2cm,right=2.2cm,top=3cm,bottom=3cm}
 
 \title{神经图像编辑}
 
-% [TODO]: 副标题
+\renewcommand{\contentsname}{目\quad 录}
+\renewcommand{\abstractname}{摘\quad 要}
+\renewcommand{\indexname}{索\quad 引}
+\renewcommand{\listfigurename}{插图目录}
+\renewcommand{\listtablename}{表格目录}
+\renewcommand{\refname}{参考资料}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\newtheorem{lemma}{\hspace{2em}引理}[section]
+\newcommand{\fleft}[1]{\begin{flushleft}#1\end{flushleft}}
+\newcommand{\fright}[1]{\begin{flushright}#1\end{flushright}}
+\newcommand{\fcenter}[1]{\begin{center}#1\end{center}}
+\newcommand{\thistitle}{}
+\newcommand\mfrac[2]{\dfrac{#1\smash[b]{\strut}}{#2\smash[t]{\strut}}}
+\titleformat*{\section}{\centering\Large\bfseries}
 
-% The \author macro works with any number of authors. There are two
-% commands used to separate the names and addresses of multiple
-% authors: \And and \AND.
-%
-% Using \And between authors leaves it to LaTeX to determine where to
-% break the lines. Using \AND forces a line break at that point. So,
-% if LaTeX puts 3 of 4 authors names on the first line, and the last
-% on the second line, try using \AND instead of \And before the third
-% author name.
-
+%字体
 \newcommand{\song}{\CJKfamily{zhsong}}	% 宋体
 \newcommand{\hei}{\CJKfamily{zhhei}}	% 黑体
 \newcommand{\fs}{\CJKfamily{zhfs}}		% 仿宋
@@ -58,9 +70,21 @@
 
 \begin{document}
 
+\hypersetup{pdftitle={Neural Image Manipulator},pdfauthor={Equation}}
+\pagestyle{fancy}
+\lhead{}
+\chead{\footnotesize 清华大学第三十六届``挑战杯''学生课外学术科技作品竞赛正式文档}
+\rhead{}
+% \rhead{\footnotesize\textrm\nouppercase\firstleftmark}
+
+\title{{\Huge 神经图像编辑}}
+\author{\Large 清华大学第三十六届``挑战杯'' \\ \Large 学生课外学术科技作品竞赛正式文档}
+\date{}
 \maketitle
 
-% [TODO]: 目录
+\newpage
+\tableofcontents
+\newpage
 
 \begin{abstract}
 
@@ -73,7 +97,6 @@
 图像是人类重要的交互途径，然而大部分人却不具有绘画的才能，本项目意图在于，以人工智能的手段降低非专业人士在绘图方面的技术壁垒。在我们的作品神经图像编辑中，用户给出简笔画就可以得到算法生成的与预期相似的图画；用户还可以继续完善简笔画，对图像进行符合人类直觉的图像编辑，达到更符合预期的结果。
 
 通过简笔画生成图像的技术有着广泛的应用前景。一个例子是在基于图片的商品搜索中，消费者们脑海中已经有了一件商品的形象，而不知如何找到它，这时用户可以通过简笔画描述出想要的衣服，或者在已有的一件样品上进行更改。另一个例子是当下异常繁荣的网络小说市场。起点中文网上的作品已经有数百万之巨，其中绝大多数作品都是纯文本形式，绝大多数作家都想为自己的作品添加插图、为笔下的人物赋予视觉形象，但是由于插画的耗时与价格而只有极少数作品能有此殊荣。第三个例子是广大的兴趣爱好者团体，他们想为喜爱的作品进行二次创作，有了很好的想法却由于不具有专业的美术技能而极大地增加了创作难度、限制了作品的想象力。
-
 
 
 % [TODO]: to be modified
@@ -96,14 +119,17 @@
   \label{fig:frontend}
 \end{figure}
 
-
 \section{项目背景}
 
-基于神经网络的图像编辑最早来源于2016提出的交互式生成对抗网络(Interactive Generative Adversarial Network, iGAN)~\cite{Zhu2016Generative}。iGAN提出了基于优化输入的交互式编辑框架，并在户外风景、教堂、鞋子、手提包数据集上进行了实验。iGAN能够做到使得图片随着用户的编辑发生变化，但是它存在着根本的不足，一是生成的质量较低，生成的分辨率仅为64x64而且其内容的真假较易被人分辨；二是在编辑过程中图片的生成质量下滑严重。之后Neural Photo Editor~\cite{Brock2016Neural}的提出改进了生成网络、判别网络，使得在64x64分辨率下的生成质量得到了提升，在人脸编辑领域得到了令人满意的结果。生成质量与编辑质量一直是神经图像编辑的瓶颈，至今仍然处于待解决的状态。尤其是当问题变成了动漫相关的图像子类时，由于此领域内数据集质量的低下，这生成质量与编辑质量的问题变得尤为突出，成为本项目的难点之一。
+基于神经网络的图像编辑最早来源于2016提出的交互式生成对抗网络(Interactive Generative Adversarial Network, iGAN)~\cite{Zhu2016Generative}。iGAN提出了基于优化输入的交互式编辑框架，并在户外风景、教堂、鞋子、手提包数据集上进行了实验。iGAN能够做到使得图片随着用户的编辑发生变化，但是它存在着根本的不足，一是生成的质量较低，生成的分辨率仅为 $64\times64$ 而且其内容的真假较易被人分辨；二是在编辑过程中图片的生成质量下滑严重。之后Neural Photo Editor~\cite{Brock2016Neural}的提出改进了生成网络、判别网络，使得在 $64\times64$ 分辨率下的生成质量得到了提升，在人脸编辑领域得到了令人满意的结果。生成质量与编辑质量一直是神经图像编辑的瓶颈，至今仍然处于待解决的状态。尤其是当问题变成了动漫相关的图像子类时，由于此领域内数据集质量的低下，这生成质量与编辑质量的问题变得尤为突出，成为本项目的难点之一。
 
-另外一类与神经图像编辑相关的方法以pix2pix为代表~\cite{isola2016image}，通过输入一个精确的语义地图(semantic segmentation map)来产生图像。语义地图指的是一个与原图像大小相等的“地图”，其中每一个像素表明了该像素所属的物体类别。编辑操作通过通过更改输入的语义地图来进行，优点在于生成的质量好于前一种方法，而且其对于物体的形态、边缘有着较高的自由度。它的缺点主要有两点：1. 需要含有语义地图的数据集进行训练，对于数据集的要求非常高，在许多领域上都难以实现。 2. 这种编辑只能在有限的范围内改动，只能指定某个区域是什么物体，而不能对物体的具体特征进行修改。
+另外一类与神经图像编辑相关的方法以pix2pix为代表~\cite{isola2016image}，通过输入一个精确的语义地图(semantic segmentation map)来产生图像。语义地图指的是一个与原图像大小相等的“地图”，其中每一个像素表明了该像素所属的物体类别。编辑操作通过通过更改输入的语义地图来进行，优点在于生成的质量好于前一种方法，而且其对于物体的形态、边缘有着较高的自由度。它的缺点主要有两点：
+\begin{enumerate}
+  \item 需要含有语义地图的数据集进行训练，对于数据集的要求非常高，在许多领域上都难以实现。
+  \item 这种编辑只能在有限的范围内改动，只能指定某个区域是什么物体，而不能对物体的具体特征进行修改。
+\end{enumerate}
 
-基于第二类方法，在插画线稿上色方面有着不错的成果，例如PaintsChainer\footnote{\url{https://github.com/pfnet/PaintsChainer}}和Style2Paint\footnote{\url{https://github.com/pfnet/PaintsChainer}}。这种方法的输入是具有相当美术水准的线稿，输出是上色以后的图像，通过类似于简笔画的方式来对具体的上色进行调节。这种方法的优点继承了pix2pix生成质量较好的优点，但是它只能微调局部的色彩，编辑自由度较低。目前看来这种方法还有另一个应用方面的缺点，它假定了专业人士作为使用者，但是其上色的质量距离专业的水准还有一定距离，使其应用场景有些尴尬。
+基于第二类方法，在插画线稿上色方面有着不错的成果，例如 PaintsChainer\footnote{\url{https://github.com/pfnet/PaintsChainer}} 和 Style2Paint\footnote{\url{https://github.com/pfnet/PaintsChainer}}。这种方法的输入是具有相当美术水准的线稿，输出是上色以后的图像，通过类似于简笔画的方式来对具体的上色进行调节。这种方法的优点继承了pix2pix生成质量较好的优点，但是它只能微调局部的色彩，编辑自由度较低。目前看来这种方法还有另一个应用方面的缺点，它假定了专业人士作为使用者，但是其上色的质量距离专业的水准还有一定距离，使其应用场景有些尴尬。
 
 我们的项目立足于业余用户的简笔画，努力做到面向业余用户的简单而有效的绘图。我们主要与第一类方法进行比较，使用iGAN~\cite{Zhu2016Generative}和NPE~\cite{Brock2016Neural}作为两个基线，其效果如~\ref{fig:baseline1}和~\ref{fig:baseline2}所示。这两种基线方法在各自原文的应用领域上都有着较为令人满意的结果，然而在动漫数据集Getchu上的表现都充分地体现出了其生成质量和编辑质量上的瓶颈。我们的项目针对这个瓶颈提出了有效的解决方法。
 
