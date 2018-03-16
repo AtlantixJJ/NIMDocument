@@ -118,8 +118,9 @@
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\linewidth]{figs/baseline_shoe.PNG}
+  \includegraphics[width=0.9\linewidth]{figs/baseline_handbag.PNG}
   \includegraphics[width=0.9\linewidth]{figs/baseline1.PNG}
-  \caption{\kai 基准线1 iGAN~\cite{Zhu2016Generative}的效果。上面的图片来源于原论文，展示了随着用户添加简笔画，鞋子的颜色随之变化的过程，较为符合预期。下面的图片是在Getchu数据集中复现的结果，使用iGAN开源的代码，遵循了原文的设置。图中灰色线条是边缘简笔画，其他的彩色线条是颜色简笔画。经过试验，在编辑图像的过程中图片的真实性频繁下滑。展示的图片经过了精心挑选，达到了iGAN所能达到的最佳效果，但仍然十分不美观。}
+  \caption{\kai 基准线1 iGAN~\cite{Zhu2016Generative}的效果。上两行的图片来源于原论文，展示了随着用户添加简笔画，鞋子、手提包的颜色随之变化的过程，较为符合预期。下面的图片是在Getchu数据集中复现的结果，使用iGAN开源的代码，遵循了原文的设置。图中灰色线条是边缘简笔画，其他的彩色线条是颜色简笔画。经过试验，在编辑图像的过程中图片的真实性频繁下滑。展示的图片经过了精心挑选，达到了iGAN所能达到的最佳效果，但仍然十分不美观。}
   \label{fig:baseline1}
 \end{figure}
 
@@ -300,21 +301,21 @@
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figs/pic.png}
-  \caption{\kai 神经图像编辑在动漫人脸上的编辑效果展示，共六组，每组三幅图。每组中，左中右分别为原图、原画加上简笔画图、结果图。从上到下的编辑方式分别是更换发色、更换瞳色、更换发型。}
+  \caption{\kai 神经图像编辑在动漫人脸上的编辑效果展示，共六组，每组三幅图。每组中，左中右分别为原图、原画加上简笔画图、结果图。从上到下的编辑方式分别是更换发色、更换瞳色、更换发型。生成图片的质量良好，编辑后图像基本符合预期，且质量未有下滑。}
   \label{fig:demo_face}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figs/shoes.png}
-  \caption{\kai 神经图像编辑在鞋子上的编辑效果展示，格式同上图。从上到下分别是更换鞋子颜色或光泽、编辑鞋子形状、基于整体草图的编辑。}
+  \caption{\kai 神经图像编辑在鞋子上的编辑效果展示，格式同上图。从上到下分别是更换鞋子颜色或光泽、编辑鞋子形状、基于整体草图的编辑。同样可以观察到良好的生成质量，稳定的编辑质量，同基线1 图~\ref{fig:baseline1}进行比较可以看出生成质量上的提升。}
   \label{fig:demo_shoe}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=1\linewidth]{figs/handbags.png}
-  \caption{\kai 神经图像编辑在手提包图片上的编辑效果展示，格式同上图。第一行左边是改变颜色，右边是添加光泽，第二行是调整手提包大小，第三行是修改手提包带子形状。}
+  \caption{\kai 神经图像编辑在手提包图片上的编辑效果展示，格式同上图。第一行左边是改变颜色，右边是添加光泽，第二行是调整手提包大小，第三行是修改手提包带子形状。同基线1 图~\ref{fig:baseline1}进行比较可以看出生成质量上的提升。}
   \label{fig:demo_hangbag}
 \end{figure}
 
