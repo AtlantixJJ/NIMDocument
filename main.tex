@@ -244,7 +244,7 @@
 
 \subsubsection{演示模型的训练}
 
-最终我们确定的训练设置是：Adam~\cite{Kingma2014Adam}优化器以$2 \times 10^{-4}$的初始学习率进行$5 \times 10^{4}$的迭代，然后在接下来$5 \times 10^{4}$的迭代中线性降低学习率至$1 \times 10^{5}$。网络使用128维的随机向量$z$和34维的条件向量$c$，前者服从$\sigma=1, \mu=0$的正态分布，后者在保证类互斥条件下由均匀分布随机产生。各个loss的系数是$\lambda_{gp}=0.5$，$\lambda_{reg}=10^{-4}$，$\lambda_{adv}=1$。$\mathrm{batchsize}=64$。训练在Titan X GPU下需要花费大约20小时的时间。
+最终我们确定的训练设置是：Adam~\cite{Kingma2014Adam}优化器以$2 \times 10^{-4}$的初始学习率进行$5 \times 10^{4}$的迭代，然后在接下来$5 \times 10^{4}$的迭代中线性降低学习率至$1 \times 10^{-5}$。网络使用128维的随机向量$z$和34维的条件向量$c$，前者服从$\sigma=1, \mu=0$的正态分布，后者在保证类互斥条件下由均匀分布随机产生。各个loss的系数是$\lambda_{gp}=1.0$，$\lambda_{reg}=10^{-4}$，$\lambda_{adv}=2.0$。$\mathrm{batchsize}=64$。训练在Titan X GPU下需要花费大约40小时的时间。
 
 图~\ref{fig:goodmodel_dragan}~展示了我们使用的演示模型的训练loss变化：
 
@@ -266,18 +266,17 @@
 
 \subsection{数据集}
 
-我们使用的数据集取自 Getchu\footnote{\url{http://getchu.com}}网站，该网站汇聚了大量高质量动漫人物立绘，且图片中仅有单人，背景为白色，很适合作为我们的训练数据。
+我们使用的动漫人脸数据集取自 Getchu\footnote{\url{http://getchu.com}}网站。该网站汇聚了大量高质量动漫人物立绘，且图片中仅有单人，背景为白色，很适合作为训练数据。我们使用从该网站上爬取了 22000 张图片，经过 OpenCV \footnote{\url{https://opencv.org}}识别人脸，裁剪、缩放等操作得到 $128\times128$大小的数据集。然后，我们对采集到的图像使用 illustration2vec~\cite{Saito2015Illustration2Vec}进行分类，选取其中与我们的任务相关的34类(illustration2vec有512个类别)，可编码一个 34 维的向量，即条件向量 $c$，如表~\ref{table:ill_c}~所示。向量的第$i$维取值为 0 或 1，如果是 1 表示该图片具有编号为 $i$ 的特征，且同一大类的各个子类中最多只能有一个 1。
 
-我们使用爬虫工具从该网站上获得了 22000 张图片，经过 OpenCV \footnote{\url{https://opencv.org}}识别人脸，然后裁剪、缩放到 $128\times128$大小。
+鞋子数据集来源于~\cite{finegrained}，手提包数据集来源于~\cite{Zhu2016Generative}。这两个数据集大小为$128 \times 128$，数据干净、质量高，适合GAN的训练。
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.5\linewidth]{figs/ex6.png}
-  \caption{\kai Getchu数据集。采用 OpenCV 识别人脸，经过裁剪、缩放到 $64\times64$ 的大小。}
+  \caption{\kai Getchu数据集样例。采用 OpenCV 识别人脸，经过裁剪、缩放到 $128 \times 128$ 的大小。}
   \label{fig:getchu_disp}
 \end{figure}
 
-然后，我们对采集到的图像使用 illustration2vec~\cite{Saito2015Illustration2Vec}进行分类，可得到每张图片属于某一类别的概率(illustration2vec有512个类别)。选取其中与我们的任务相关的 10 个 大类 和 34 个小类，可编码一个 34 维的向量，即条件向量 $c$，如表~\ref{table:ill_c}~所示。向量的第$i$维取值为 0 或 1，如果是 1 表示该图片具有编号为 $i$ 的特征，且同一大类的各个子类中最多只能有一个 1。
 
 \renewcommand{\multirowsetup}{\centering}
 \begin{table}[H]
