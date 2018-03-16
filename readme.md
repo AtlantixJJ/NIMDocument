@@ -12,7 +12,7 @@ kmy: 最好是今天之内完成
 
 3. (Done) 完成前两个以后，考虑重新添加一组动漫人脸编辑的例子。
 
-4. shoe & handbag demo图的caption。
+4. (Done) shoe & handbag demo图的caption。
 
 jyk: 
 
@@ -37,7 +37,7 @@ jyk:
 
 2. 文档格式变换，查错等。
 
-3. 原先动漫demo的格式变换。
+3. (Done) 原先动漫demo的格式变换。
 
 发色1，发色2；
 
