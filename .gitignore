@@ -4,6 +4,7 @@ finalreport.pdf
 *.aux
 *.blg
 *.bbl
+*.toc
 *.log
 *.out
 *.fdb_latexmk
