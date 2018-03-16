@@ -127,16 +127,7 @@
   \label{fig:baseline2}
 \end{figure}
 
-\section{方法}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.9\linewidth]{figs/pic.png}
-  \caption{\kai 编辑效果展示，共六组，每组三幅图。每组中最左边的一幅为原图，中间的一幅图为编辑图，最右边的一幅图为生成的结果图。第一行为成功更换发色的例子，第二行为成功更换瞳色的例子，第三行为成功更换发型的例子。}
-  \label{fig:pic}
-\end{figure}
-
-\subsection{图像编辑}
+\section{核心技术}
 
 \begin{figure}[H]
   \centering
@@ -144,6 +135,16 @@
   \caption{\kai 项目解决方法。从随机向量出发，由生成网络生成初始结果，用户给定简笔画和对应的遮罩，由编辑距离函数计算误差和倒数，并借此更新 $z$，达到编辑图像的目的。蓝箭头表示数据流向，橙色箭头表示导数。}
   \label{fig:workflow1}
 \end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\linewidth]{figs/pic.png}
+  \caption{\kai 编辑效果展示，共六组，每组三幅图。每组中，左中右分别为原图、简笔画图、结果图。第一行为成功更换发色的例子，第二行为成功更换瞳色的例子，第三行为成功更换发型的例子。}
+  \label{fig:pic}
+\end{figure}
+
+\subsection{图像编辑}
+
 
 
 我们使用训练好的生成网络$G$实现对于图像的编辑工作。
